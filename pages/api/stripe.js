@@ -9,12 +9,17 @@ export default async function handler(req, res) {
       const params = {
         submit_type: 'pay',
         mode: 'payment',
+        shipping_address_collection: {
+          allowed_countries: ['FR','US', 'CA'],
+        },
         payment_method_types: ['card'],
         billing_address_collection: 'auto',
+        
         shipping_options: [
-          { shipping_rate: 'shr_1LEWH3FfQNIrIaN42Xg5GgMx' } 
+          { shipping_rate: 'shr_1LEWH3FfQNIrIaN42Xg5GgMx'}
         ]
         ,
+        
         line_items: req.body.map((item) => {
           const img = item.image[0].asset._ref;
           const newImage = img.replace('image-', 'https://cdn.sanity.io/images/2it1zks1/production/').replace('-webp', '.webp');
@@ -28,6 +33,7 @@ export default async function handler(req, res) {
               },
               unit_amount: item.price * 100,
             },
+
             adjustable_quantity: {
               enabled:true,
               minimum: 1,
